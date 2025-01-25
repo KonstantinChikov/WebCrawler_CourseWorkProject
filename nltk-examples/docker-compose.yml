@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ENVIRONMENT: "local"
+    # keep the container up and running, so we can exec into it
+    command:
+      tail -f /dev/null
+    volumes:
+      - ./:/app

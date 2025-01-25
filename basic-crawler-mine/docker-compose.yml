@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ENVIRONMENT: "local"
+    networks:
+      - app-tier
+    # keep the container up and running, so we can exec into it
+    command:
+      tail -f /dev/null
+    volumes:
+      # - myapp:/app
+      - ./:/app
+
+  postgres_db:
+    container_name: container-pg
+    image: postgres
+    hostname: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-tier
+
+networks:
+  app-tier:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  myapp:
+    external: true

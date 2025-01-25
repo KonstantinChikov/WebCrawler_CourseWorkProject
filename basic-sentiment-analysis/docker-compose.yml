@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  python_app:
+    image: boneff/basic-python-sentiment-analysis:latest
+    environment:
+      ENVIRONMENT: "local"
+      CSV_PATH: "/app/data/avatar.csv"
+      FIELD_NAME: "character_words"
+    command:
+      tail -f /dev/null
+    volumes:
+      - ./:/app
